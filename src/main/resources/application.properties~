@@ -1,0 +1,11 @@
+spring.application.name=franchise-challenge
+server.port=8080
+
+#Configuracion de la base de datos
+spring.sql.init.mode=always
+spring.sql.init.data-locations=classpath:/database/data.sql
+spring.r2dbc.username=${DATABASE_USER_NAME:root}
+spring.r2dbc.password=${DATABASE_PASSWORD:}
+spring.r2dbc.url=${DATABASE_URL:r2dbc:mysql://localhost:3306/franchises}
+
+logging.level.org.springframework.r2dbc= DEBUG

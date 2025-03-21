@@ -1,0 +1,32 @@
+package com.example.franchise_challenge.domain.validationsUseCase;
+
+import com.example.franchise_challenge.domain.exceptions.FranchiseAlreadyExistsException;
+import com.example.franchise_challenge.domain.exceptions.FranchiseNotFoundException;
+import com.example.franchise_challenge.domain.spi.IFranchisePersistencePort;
+import com.example.franchise_challenge.domain.utils.constants.DomainConstants;
+import reactor.core.publisher.Mono;
+
+public class FranchiseValidations {
+
+    private final IFranchisePersistencePort franchisePersistencePort;
+
+    public FranchiseValidations(IFranchisePersistencePort franchisePersistencePort) {
+        this.franchisePersistencePort = franchisePersistencePort;
+    }
+
+    public Mono<Void> validateFranchiseExists(Long franchiseId) {
+        return franchisePersistencePort.existsFranchiseById(franchiseId)
+                .flatMap(exists -> exists
+                        ? Mono.empty()
+                        : Mono.error(new FranchiseNotFoundException(
+                        String.format(DomainConstants.FRANCHISE_NOT_FOUND, franchiseId)))
+                );
+    }
+
+    public Mono<Void> validateFranchiseDoesNotExist(String franchiseName) {
+        return franchisePersistencePort.existsFranchiseByName(franchiseName)
+                .flatMap(exists -> exists
+                        ? Mono.error(new FranchiseAlreadyExistsException(DomainConstants.FRANCHISE_ALREADY_EXISTS))
+                        : Mono.empty());
+    }
+}

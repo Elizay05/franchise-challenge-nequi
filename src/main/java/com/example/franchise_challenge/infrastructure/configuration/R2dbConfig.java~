@@ -1,0 +1,7 @@
+package com.example.franchise_challenge.infrastructure.configuration;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class R2dbConfig {
+}

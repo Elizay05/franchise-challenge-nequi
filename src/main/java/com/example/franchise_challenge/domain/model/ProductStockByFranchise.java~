@@ -1,0 +1,32 @@
+package com.example.franchise_challenge.domain.model;
+
+import lombok.Builder;
+
+import java.util.List;
+
+@Builder
+public class ProductStockByFranchise {
+    private Long franchiseId;
+    private List<ProductStock> products;
+
+    public ProductStockByFranchise(Long franchiseId, List<ProductStock> products) {
+        this.franchiseId = franchiseId;
+        this.products = products;
+    }
+
+    public Long getFranchiseId() {
+        return franchiseId;
+    }
+
+    public List<ProductStock> getProducts() {
+        return products;
+    }
+
+    public void setFranchiseId(Long franchiseId) {
+        this.franchiseId = franchiseId;
+    }
+
+    public void setProducts(List<ProductStock> products) {
+        this.products = products;
+    }
+}

@@ -1,0 +1,73 @@
+package com.example.franchise_challenge.infrastructure;
+
+import com.example.franchise_challenge.domain.exceptions.BranchAlreadyExistsException;
+import com.example.franchise_challenge.domain.exceptions.FranchiseAlreadyExistsException;
+import com.example.franchise_challenge.domain.exceptions.FranchiseNotFoundException;
+import com.example.franchise_challenge.infrastructure.exceptionHandler.ControllerAdvisor;
+import com.example.franchise_challenge.infrastructure.exceptionHandler.ExceptionResponse;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@ExtendWith(MockitoExtension.class)
+public class ControllerAdvisorTest {
+
+    @InjectMocks
+    private ControllerAdvisor controllerAdvisor;
+
+    @Test
+    public void test_handles_franchise_already_exists_exception_with_conflict_status() {
+        // Arrange
+        String errorMessage = "Franchise already exists";
+        FranchiseAlreadyExistsException exception = new FranchiseAlreadyExistsException(errorMessage);
+
+        // Act
+        ResponseEntity<ExceptionResponse> responseEntity = controllerAdvisor.handleFranchiseAlreadyExistsException(exception);
+        ExceptionResponse exceptionResponse = responseEntity.getBody();
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+        assertNotNull(exceptionResponse);
+        assertEquals(errorMessage, exceptionResponse.getMessage());
+        assertEquals(HttpStatus.CONFLICT.toString(), exceptionResponse.getStatus());
+        assertNotNull(exceptionResponse.getTimestamp());
+    }
+
+    @Test
+    public void test_handle_branch_already_exists_exception_returns_conflict_status() {
+        // Arrange
+        String errorMessage = "Branch already exists";
+        BranchAlreadyExistsException exception = new BranchAlreadyExistsException(errorMessage);
+
+        // Act
+        ResponseEntity<ExceptionResponse> responseEntity = controllerAdvisor.handleBranchAlreadyExistsException(exception);
+
+        // Assert
+        assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        assertEquals(errorMessage, responseEntity.getBody().getMessage());
+        assertEquals(HttpStatus.CONFLICT.toString(), responseEntity.getBody().getStatus());
+        assertNotNull(responseEntity.getBody().getTimestamp());
+    }
+
+    @Test
+    public void test_returns_not_found_status_with_exception_message() {
+        String errorMessage = "Franchise not found with id: 123";
+        FranchiseNotFoundException exception = new FranchiseNotFoundException(errorMessage);
+
+        ResponseEntity<ExceptionResponse> responseEntity = controllerAdvisor.handleFranchiseNotFoundException(exception);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        ExceptionResponse response = responseEntity.getBody();
+        assertNotNull(response);
+        assertEquals(errorMessage, response.getMessage());
+        assertEquals(HttpStatus.NOT_FOUND.toString(), response.getStatus());
+        assertNotNull(response.getTimestamp());
+    }
+}

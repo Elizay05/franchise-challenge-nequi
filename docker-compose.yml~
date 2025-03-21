@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: franchise_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      DATABASE_USER_NAME: root
+      DATABASE_PASSWORD: admin
+      DATABASE_URL: r2dbc:mysql://mysql-db:3306/franchises
+
+  mysql-db:
+    image: mysql:8
+    container_name: franchise_mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: franchises
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
