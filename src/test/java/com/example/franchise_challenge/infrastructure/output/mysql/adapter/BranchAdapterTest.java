@@ -1,9 +1,10 @@
 package com.example.franchise_challenge.infrastructure.output.mysql.adapter;
 
 import com.example.franchise_challenge.domain.model.BranchModel;
-import com.example.franchise_challenge.infrastructure.output.mysql.entity.BranchEntity;
-import com.example.franchise_challenge.infrastructure.output.mysql.mapper.IBranchEntityMapper;
-import com.example.franchise_challenge.infrastructure.output.mysql.repository.IBranchRepository;
+import com.example.franchise_challenge.infrastructure.adapters.mysql.adapter.BranchAdapter;
+import com.example.franchise_challenge.infrastructure.adapters.mysql.entity.BranchEntity;
+import com.example.franchise_challenge.infrastructure.adapters.mysql.mapper.IBranchEntityMapper;
+import com.example.franchise_challenge.infrastructure.adapters.mysql.repository.IBranchRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

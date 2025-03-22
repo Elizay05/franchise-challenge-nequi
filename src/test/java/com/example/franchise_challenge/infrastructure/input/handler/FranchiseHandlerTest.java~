@@ -1,9 +1,11 @@
 package com.example.franchise_challenge.infrastructure.input.handler;
 
-import com.example.franchise_challenge.application.dto.request.FranchiseRequest;
-import com.example.franchise_challenge.application.dto.request.NameUpdateRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.FranchiseRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.NameUpdateRequest;
 import com.example.franchise_challenge.application.handler.IFranchiseRestHandler;
-import com.example.franchise_challenge.infrastructure.input.utils.constants.InputConstants;
+import com.example.franchise_challenge.infrastructure.entrypoints.util.constants.ApplicationConstants;
+import com.example.franchise_challenge.infrastructure.entrypoints.handler.FranchiseHandler;
+import com.example.franchise_challenge.infrastructure.entrypoints.util.constants.InputConstants;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
@@ -114,5 +116,40 @@ public class FranchiseHandlerTest {
                 .verifyComplete();
 
         verify(franchiseRestHandler).updateName(franchiseId, validName);
+    }
+
+    @Test
+    public void test_empty_name_returns_bad_request() {
+        // Arrange
+        Long franchiseId = 1L;
+        NameUpdateRequest nameUpdateRequest = new NameUpdateRequest("");
+
+        ServerRequest mockRequest = mock(ServerRequest.class);
+
+        Set<ConstraintViolation<NameUpdateRequest>> violations = new HashSet<>();
+        ConstraintViolation<NameUpdateRequest> violation = mock(ConstraintViolation.class);
+        Path path = mock(Path.class);
+
+        when(path.toString()).thenReturn("name");
+        when(violation.getPropertyPath()).thenReturn(path);
+        when(violation.getMessage()).thenReturn(ApplicationConstants.IS_REQUIRED);
+        violations.add(violation);
+
+        when(mockRequest.pathVariable(InputConstants.FRANCHISE_ID)).thenReturn(franchiseId.toString());
+        when(mockRequest.bodyToMono(NameUpdateRequest.class)).thenReturn(Mono.just(nameUpdateRequest));
+        when(validator.validate(nameUpdateRequest)).thenReturn(violations);
+
+        // Act
+        Mono<ServerResponse> result = franchiseHandler.updateName(mockRequest);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectNextMatches(response -> {
+                    return response.statusCode() == HttpStatus.BAD_REQUEST &&
+                            response.headers().getContentType().equals(MediaType.APPLICATION_JSON);
+                })
+                .verifyComplete();
+
+        verify(franchiseRestHandler, never()).updateName(anyLong(), anyString());
     }
 }

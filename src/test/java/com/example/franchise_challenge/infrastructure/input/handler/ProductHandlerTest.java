@@ -1,11 +1,12 @@
 package com.example.franchise_challenge.infrastructure.input.handler;
 
-import com.example.franchise_challenge.application.dto.request.NameUpdateRequest;
-import com.example.franchise_challenge.application.dto.request.ProductRequest;
-import com.example.franchise_challenge.application.dto.request.StockUpdateRequest;
-import com.example.franchise_challenge.application.dto.response.FranchiseStockResponse;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.NameUpdateRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.ProductRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.StockUpdateRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.response.FranchiseStockResponse;
 import com.example.franchise_challenge.application.handler.IProductRestHandler;
-import com.example.franchise_challenge.infrastructure.input.utils.constants.InputConstants;
+import com.example.franchise_challenge.infrastructure.entrypoints.handler.ProductHandler;
+import com.example.franchise_challenge.infrastructure.entrypoints.util.constants.InputConstants;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,6 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

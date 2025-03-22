@@ -1,13 +1,14 @@
 package com.example.franchise_challenge.application.handler.impl;
 
 
-import com.example.franchise_challenge.application.dto.request.ProductRequest;
-import com.example.franchise_challenge.application.dto.response.FranchiseStockResponse;
-import com.example.franchise_challenge.application.mapper.IFranchiseStockResponseMapper;
-import com.example.franchise_challenge.application.mapper.IProductRequestMapper;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.ProductRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.response.FranchiseStockResponse;
+import com.example.franchise_challenge.infrastructure.entrypoints.mapper.IFranchiseStockResponseMapper;
+import com.example.franchise_challenge.infrastructure.entrypoints.mapper.IProductRequestMapper;
 import com.example.franchise_challenge.domain.api.IProductServicePort;
 import com.example.franchise_challenge.domain.model.FranchiseStockModel;
 import com.example.franchise_challenge.domain.model.ProductModel;
+import com.example.franchise_challenge.infrastructure.entrypoints.handlerRest.impl.ProductRestHandlerImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

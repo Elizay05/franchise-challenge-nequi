@@ -1,7 +1,7 @@
 package com.example.franchise_challenge.application.handler.impl;
 
-import com.example.franchise_challenge.application.dto.request.BranchRequest;
-import com.example.franchise_challenge.application.mapper.IBranchRequestMapper;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.BranchRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.mapper.IBranchRequestMapper;
 import com.example.franchise_challenge.domain.api.IBranchServicePort;
 import com.example.franchise_challenge.domain.model.BranchModel;
 import org.junit.jupiter.api.Test;

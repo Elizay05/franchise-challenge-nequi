@@ -1,6 +1,7 @@
 package com.example.franchise_challenge.infrastructure.exceptionHandler;
 
 import com.example.franchise_challenge.domain.exceptions.*;
+import com.example.franchise_challenge.infrastructure.entrypoints.util.models.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
