@@ -14,4 +14,6 @@ public class DomainConstants {
     public static final String INVALID_STOCK = "El stock debe ser mayor a 0";
     public static final String PRODUCT_NOT_FOUND_IN_BRANCH = "El producto no se encuentra en la sucursal";
     public static final String PRODUCT_NOT_FOUND = "El producto con ID %s no existe";
+
+    public static final int ZERO = 0;
 }

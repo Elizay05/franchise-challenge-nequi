@@ -29,13 +29,6 @@ public class ProductValidations {
                 : Mono.error(new InvalidStockException(DomainConstants.INVALID_STOCK));
     }
 
-    public Mono<Void> validateProductExistsInBranch(Long productId, Long branchId) {
-        return productPersistencePort.productExistsInBranch(productId, branchId)
-                .flatMap(exists -> exists
-                        ? Mono.empty()
-                        : Mono.error(new ProductNotFoundInBranchException(DomainConstants.PRODUCT_NOT_FOUND_IN_BRANCH)));
-    }
-
     public Mono<Void> validateProductExistsById(Long productId) {
         return productPersistencePort.existsProductById(productId)
                 .flatMap(exists -> exists

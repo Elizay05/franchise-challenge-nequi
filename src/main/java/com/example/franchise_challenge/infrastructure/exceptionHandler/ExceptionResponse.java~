@@ -1,4 +1,0 @@
-package com.example.franchise_challenge.infrastructure.exceptionHandler;
-
-public class ExceptionResponse {
-}

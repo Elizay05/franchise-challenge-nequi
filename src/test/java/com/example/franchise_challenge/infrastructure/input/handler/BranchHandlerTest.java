@@ -1,10 +1,10 @@
 package com.example.franchise_challenge.infrastructure.input.handler;
 
-import com.example.franchise_challenge.application.dto.request.BranchRequest;
-import com.example.franchise_challenge.application.dto.request.NameUpdateRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.BranchRequest;
+import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.NameUpdateRequest;
 import com.example.franchise_challenge.application.handler.IBranchRestHandler;
-import com.example.franchise_challenge.application.utils.constants.ApplicationConstants;
-import com.example.franchise_challenge.infrastructure.input.utils.constants.InputConstants;
+import com.example.franchise_challenge.infrastructure.entrypoints.handler.BranchHandler;
+import com.example.franchise_challenge.infrastructure.entrypoints.util.constants.InputConstants;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
