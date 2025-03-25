@@ -8,7 +8,6 @@ import com.example.franchise_challenge.infrastructure.entrypoints.dto.request.Na
 import com.example.franchise_challenge.infrastructure.entrypoints.mapper.IFranchiseRequestMapper;
 import com.example.franchise_challenge.infrastructure.entrypoints.util.constants.InputConstants;
 import com.example.franchise_challenge.infrastructure.entrypoints.util.models.ExceptionResponse;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,13 +31,11 @@ public class FranchiseHandler {
 
     public Mono<ServerResponse> createFranchise(ServerRequest request) {
         return request.bodyToMono(FranchiseRequest.class)
-                .flatMap(franchiseRequest -> {
-                    Set<ConstraintViolation<FranchiseRequest>> violations = validator.validate(franchiseRequest);
-
-                    return violations.isEmpty()
-                            ? Mono.just(franchiseRequestMapper.toModel(franchiseRequest))
-                            : Mono.error(new ConstraintViolationException(violations));
-                })
+                .flatMap(franchiseRequest -> Mono.fromCallable(() -> validator.validate(franchiseRequest))
+                        .flatMap(violations -> violations.isEmpty()
+                                ? Mono.just(franchiseRequestMapper.toModel(franchiseRequest))
+                                : Mono.error(new ConstraintViolationException(violations)))
+                )
                 .flatMap(franchiseServicePort::createFranchise)
                 .then(ServerResponse.status(HttpStatus.CREATED).build())
                 .onErrorResume(ConstraintViolationException.class, e -> {
@@ -81,13 +77,11 @@ public class FranchiseHandler {
         Long franchiseId = Long.parseLong(request.pathVariable(InputConstants.FRANCHISE_ID));
 
         return request.bodyToMono(NameUpdateRequest.class)
-                .flatMap(nameRequest -> {
-                    Set<ConstraintViolation<NameUpdateRequest>> violations = validator.validate(nameRequest);
-
-                    return violations.isEmpty()
-                            ? Mono.just(nameRequest.getName())
-                            : Mono.error(new ConstraintViolationException(violations));
-                })
+                .flatMap(nameRequest -> Mono.fromCallable(() -> validator.validate(nameRequest))
+                        .flatMap(violations -> violations.isEmpty()
+                                ? Mono.just(nameRequest.getName())
+                                : Mono.error(new ConstraintViolationException(violations)))
+                )
                 .flatMap(name -> franchiseServicePort.updateName(franchiseId, name)
                         .then(ServerResponse.status(HttpStatus.OK).build()))
                 .onErrorResume(ConstraintViolationException.class, e -> {

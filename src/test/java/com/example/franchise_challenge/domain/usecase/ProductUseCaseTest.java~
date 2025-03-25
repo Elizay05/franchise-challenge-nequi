@@ -131,7 +131,7 @@ public class ProductUseCaseTest {
         when(productBranchValidations.validateProductExistsInBranch(productId, branchId)).thenReturn(Mono.empty());
         when(productValidations.validateStock(stock)).thenReturn(Mono.empty());
         when(productBranchPersistencePort.updateStock(productId, branchId, stock)).thenReturn(Mono.empty());
-
+        
         // Act
         StepVerifier.create(productUseCase.updateStock(productId, branchId, stock))
                 .verifyComplete();
@@ -142,6 +142,52 @@ public class ProductUseCaseTest {
         verify(productValidations).validateStock(stock);
         verify(productBranchPersistencePort).updateStock(productId, branchId, stock);
     }
+
+    /*
+    @Test
+    public void test_delete_product_successfully() {
+        // Arrange
+        Long productId = 1L;
+        Long branchId = 1L;
+
+        Mockito.when(branchValidations.validateBranchExists(branchId)).thenReturn(Mono.empty());
+        Mockito.when(productValidations.validateProductExistsInBranch(productId, branchId)).thenReturn(Mono.empty());
+        Mockito.when(productPersistencePort.deleteProductFromBranch(productId, branchId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = productUseCase.deleteProduct(productId, branchId);
+
+        // Assert
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        Mockito.verify(branchValidations).validateBranchExists(branchId);
+        Mockito.verify(productValidations).validateProductExistsInBranch(productId, branchId);
+        Mockito.verify(productPersistencePort).deleteProductFromBranch(productId, branchId);
+    }
+
+    @Test
+    public void test_update_stock_success() {
+        // Arrange
+        Long productId = 1L;
+        Long branchId = 1L;
+        int stock = 10;
+
+        Mockito.when(branchValidations.validateBranchExists(branchId)).thenReturn(Mono.empty());
+        Mockito.when(productValidations.validateProductExistsInBranch(productId, branchId)).thenReturn(Mono.empty());
+        Mockito.when(productValidations.validateStock(stock)).thenReturn(Mono.empty());
+        Mockito.when(productPersistencePort.updateStock(productId, branchId, stock)).thenReturn(Mono.empty());
+
+        // Act
+        StepVerifier.create(productUseCase.updateStock(productId, branchId, stock))
+                .verifyComplete();
+
+        // Assert
+        Mockito.verify(branchValidations).validateBranchExists(branchId);
+        Mockito.verify(productValidations).validateProductExistsInBranch(productId, branchId);
+        Mockito.verify(productValidations).validateStock(stock);
+        Mockito.verify(productPersistencePort).updateStock(productId, branchId, stock);
+    }*/
 
     @Test
     public void test_returns_franchise_stock_model_when_franchise_exists() {
