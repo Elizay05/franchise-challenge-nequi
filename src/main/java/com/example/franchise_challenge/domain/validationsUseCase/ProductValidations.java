@@ -3,7 +3,6 @@ package com.example.franchise_challenge.domain.validationsUseCase;
 import com.example.franchise_challenge.domain.exceptions.InvalidStockException;
 import com.example.franchise_challenge.domain.exceptions.ProductAlreadyExistsException;
 import com.example.franchise_challenge.domain.exceptions.ProductNotFoundException;
-import com.example.franchise_challenge.domain.exceptions.ProductNotFoundInBranchException;
 import com.example.franchise_challenge.domain.spi.IProductPersistencePort;
 import com.example.franchise_challenge.domain.utils.constants.DomainConstants;
 import reactor.core.publisher.Mono;

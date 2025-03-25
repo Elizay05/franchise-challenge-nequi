@@ -3,7 +3,6 @@ package com.example.franchise_challenge.domain.validationsUseCase;
 import com.example.franchise_challenge.domain.exceptions.InvalidStockException;
 import com.example.franchise_challenge.domain.exceptions.ProductAlreadyExistsException;
 import com.example.franchise_challenge.domain.exceptions.ProductNotFoundException;
-import com.example.franchise_challenge.domain.exceptions.ProductNotFoundInBranchException;
 import com.example.franchise_challenge.domain.spi.IProductPersistencePort;
 import com.example.franchise_challenge.domain.utils.constants.DomainConstants;
 import org.junit.jupiter.api.Test;
@@ -77,47 +76,6 @@ public class ProductValidationsTest {
                 .expectErrorMatches(throwable -> throwable instanceof InvalidStockException
                         && throwable.getMessage().equals(DomainConstants.INVALID_STOCK))
                 .verify();
-    }
-
-    @Test
-    public void test_validate_product_exists_in_branch_returns_empty_mono_when_product_exists() {
-        // Arrange
-        Long productId = 1L;
-        Long branchId = 2L;
-
-        Mockito.when(productPersistencePort.productExistsInBranch(productId, branchId))
-                .thenReturn(Mono.just(true));
-
-        // Act
-        Mono<Void> result = productValidations.validateProductExistsInBranch(productId, branchId);
-
-        // Assert
-        StepVerifier.create(result)
-                .verifyComplete();
-
-        Mockito.verify(productPersistencePort).productExistsInBranch(productId, branchId);
-    }
-
-    @Test
-    public void test_validate_product_exists_in_branch_throws_exception_when_product_not_exists() {
-        // Arrange
-        Long productId = 1L;
-        Long branchId = 2L;
-
-        Mockito.when(productPersistencePort.productExistsInBranch(productId, branchId))
-                .thenReturn(Mono.just(false));
-
-        // Act
-        Mono<Void> result = productValidations.validateProductExistsInBranch(productId, branchId);
-
-        // Assert
-        StepVerifier.create(result)
-                .expectErrorMatches(throwable ->
-                        throwable instanceof ProductNotFoundInBranchException &&
-                                throwable.getMessage().equals(DomainConstants.PRODUCT_NOT_FOUND_IN_BRANCH))
-                .verify();
-
-        Mockito.verify(productPersistencePort).productExistsInBranch(productId, branchId);
     }
 
     @Test
